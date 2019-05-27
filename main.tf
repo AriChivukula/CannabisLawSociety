@@ -143,3 +143,12 @@ resource "aws_route53_record" "fd_record_wild" {
     zone_id                = "${aws_cloudfront_distribution.fd_distribution.hosted_zone_id}"
   }
 }
+
+resource "aws_route53_record" "fd_record_validation" {
+  count   = "${length(aws_acm_certificate.fd_certificate.domain_validation_options)}"
+  name    = "${lookup(aws_acm_certificate.fd_certificate.domain_validation_options[count.index], "resource_record_name")}"
+  records = ["${lookup(aws_acm_certificate.fd_certificate.domain_validation_options[count.index], "resource_record_value")}"]
+  ttl     = 60
+  type    = "${lookup(aws_acm_certificate.fd_certificate.domain_validation_options[count.index], "resource_record_type")}"
+  zone_id = "${aws_route53_zone.fd_zone.zone_id}"
+}
