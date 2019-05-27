@@ -151,8 +151,3 @@ resource "aws_route53_record" "fd_record_validation" {
   type    = "${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_type}"
   zone_id = "${aws_route53_zone.fd_zone.zone_id}"
 }
-
-resource "aws_acm_certificate_validation" "fd_validation" {
-  certificate_arn         = "${aws_acm_certificate.fd_certificate.arn}"
-  validation_record_fqdns = ["${aws_route53_record.fd_record_validation.fqdn}"]
-}
