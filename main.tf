@@ -154,5 +154,5 @@ resource "aws_route53_record" "fd_record_validation" {
 
 resource "aws_acm_certificate_validation" "fd_validation" {
   certificate_arn         = "${aws_acm_certificate.fd_certificate.arn}"
-  validation_record_fqdns = aws_route53_record.fd_record_validation.fqdn
+  validation_record_fqdns = "${aws_route53_record.fd_record_validation.fqdn}"
 }
