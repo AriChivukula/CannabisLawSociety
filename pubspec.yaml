@@ -1,9 +1,9 @@
 name: CannabisLawSociety
 environment:
-  sdk: latest
+  sdk: any
 dependencies:
-  flutter_web: latest
-  flutter_web_ui: latest
+  flutter_web: any
+  flutter_web_ui: any
 dev_dependencies:
-  build_runner: latest
-  build_web_compilers: latest
+  build_runner: any
+  build_web_compilers: any
