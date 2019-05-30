@@ -1,0 +1,10 @@
+[
+  {
+    "family": "MaterialIcons",
+    "fonts": [
+      {
+        "asset": "https://github.com/google/material-design-icons/raw/master/iconfont/MaterialIcons-Regular.woff2"
+      }
+    ]
+  }
+]
