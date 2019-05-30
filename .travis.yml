@@ -5,17 +5,16 @@ install:
 - wget https://releases.hashicorp.com/terraform/0.12.0/terraform_0.12.0_linux_amd64.zip
 - unzip terraform_0.12.0_linux_amd64.zip
 - rm terraform_0.12.0_linux_amd64.zip
+- ./terraform init -backend-config="bucket=${TF_VAR_DOMAIN}" -backend-config="key=master.tfstate"
 jobs:
   include:
   - stage: Build
     if: ( type = push ) AND ( branch != master )
     script:
     - webdev build
-    - ./terraform init -backend-config="bucket=${TF_VAR_DOMAIN}" -backend-config="key=master.tfstate"
     - ./terraform plan
   - stage: Deploy
     if: ( type = push ) AND ( branch = master )
     script:
     - webdev build
-    - ./terraform init -backend-config="bucket=${TF_VAR_DOMAIN}" -backend-config="key=master.tfstate"
     - ./terraform apply -auto-approve
