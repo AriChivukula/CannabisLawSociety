@@ -34,6 +34,11 @@ locals {
       remote = "main.dart.js"
       type = "application/javascript"
     },
+    {
+      local = "build/assets/FontManifest.json"
+      remote = "assets/FontManifest.json"
+      type = "application/json"
+    },
   ]
 }
 
