@@ -25,24 +25,19 @@ resource "aws_s3_bucket" "fd_bucket" {
 locals {
   files = [
     {
-      local = "static/index.html"
+      local = "build/index.html"
       remote = "index.html"
       type = "text/html"
     },
     {
-      local = "static/index.js"
-      remote = "index.js"
+      local = "build/main.dart.js"
+      remote = "main.dart.js"
       type = "application/javascript"
-    },
-    {
-      local = "static/index.css"
-      remote = "index.css"
-      type = "text/css"
     },
   ]
 }
 
-resource "aws_s3_bucket_object" "ob_object" {
+resource "aws_s3_bucket_object" "fd_object" {
   count = "${length(local.files)}"
   bucket = "${var.DOMAIN}"
   key = "${lookup(local.files[count.index], "remote")}"
