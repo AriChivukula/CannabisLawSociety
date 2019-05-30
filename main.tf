@@ -24,6 +24,16 @@ resource "aws_s3_bucket" "fd_bucket" {
 
 locals {
   files = [
+    {
+      local = "build/index.html"
+      remote = "index.html"
+      type = "text/html"
+    },
+    {
+      local = "build/main.dart.js"
+      remote = "main.dart.js"
+      type = "application/javascript"
+    },
   ]
 }
 
