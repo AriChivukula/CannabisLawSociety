@@ -39,6 +39,11 @@ locals {
       remote = "assets/FontManifest.json"
       type = "application/json"
     },
+    {
+      local = "build/assets/statute.csv"
+      remote = "assets/statute.csv"
+      type = "text/csv"
+    },
   ]
 }
 
