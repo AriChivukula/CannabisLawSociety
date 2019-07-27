@@ -47,6 +47,4 @@ Future<void> render() async {
   ));
 }
 
-void main() {
-  renderStatute();
-}
+void main() => renderStatute();
