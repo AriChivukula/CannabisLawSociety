@@ -9,26 +9,23 @@ Future<List<List<dynamic>>> readStatute() async {
 
 Future<Widget> renderStatute() async {
   var statuteList = await readStatute();
-  return Padding(
-    padding: const EdgeInsets.all(5.0),
-    child: Table(
-      border: TableBorder.all(width: 1.0, color: Colors.black),
-      children: [
-        for (var statuteListRow in statuteList)
-          TableRow(
-            children: [
-              for (var statuteListCell in statuteListRow)
-                TableCell(
-                  verticalAlignment: TableCellVerticalAlignment.middle,
-                  child: Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: new Text(statuteListCell is String ? statuteListCell : ""),
+  return Table(
+    children: [
+      for (var statuteListRow in statuteList)
+        TableRow(
+          children: [
+            for (var statuteListCell in statuteListRow)
+              TableCell(
+                child: Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: new Text(
+                    data: statuteListCell is String ? statuteListCell : "",
                   ),
                 ),
-            ],
-          ),
-      ],
-    ),
+              ),
+          ],
+        ),
+    ],
   );
 }
 
