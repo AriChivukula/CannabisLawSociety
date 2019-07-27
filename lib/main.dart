@@ -18,7 +18,7 @@ Future<Widget> renderStatute() async {
               TableCell(
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
-                  child: new Text(statuteListCell is String ? statuteListCell : ""),
+                  child: Text(statuteListCell is String ? statuteListCell : ""),
                 ),
               ),
           ],
@@ -28,10 +28,10 @@ Future<Widget> renderStatute() async {
 }
 
 Future<Widget> renderSearch() async {
-  return new TextField(
-    decoration: new InputDecoration(
-      prefixIcon: new Icon(Icons.search),
-      hintText: 'Search...'
+  return TextField(
+    decoration: InputDecoration(
+      prefixIcon: Icon(Icons.search),
+      hintText: "Search...",
     ),
   );
 }
