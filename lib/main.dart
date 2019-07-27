@@ -7,9 +7,9 @@ Future<List<List<dynamic>>> readStatute() async {
   return csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
 }
 
-Future<void> renderStatute() async {
+Future<Widget> renderStatute() async {
   var statuteList = await readStatute();
-  runApp(Padding(
+  return Padding(
     padding: const EdgeInsets.all(5.0),
     child: Table(
       border: TableBorder.all(width: 1.0, color: Colors.black),
@@ -29,6 +29,26 @@ Future<void> renderStatute() async {
           ),
       ],
     ),
+  );
+}
+
+Future<Widget> renderSearch() async {
+  return new TextField(
+    decoration: new InputDecoration(
+      prefixIcon: new Icon(Icons.search),
+      hintText: 'Search...'
+    ),
+  );
+}
+
+Future<void> render() async {
+  var searchUI = await renderSearch();
+  var statuteUI = await renderStatute();
+  runApp(Column(
+    children: <Widget>[
+      searchUI,
+      statuteUI,
+    ],
   ));
 }
 

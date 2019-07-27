@@ -11,10 +11,10 @@ jobs:
   - stage: Build
     if: ( type = push ) AND ( branch != master )
     script:
-    - webdev build
+    - webdev build --no-release
     - ./terraform plan
   - stage: Deploy
     if: ( type = push ) AND ( branch = master )
     script:
-    - webdev build
+    - webdev build --no-release
     - ./terraform apply -auto-approve
