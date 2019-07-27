@@ -11,7 +11,7 @@ void main() => runApp(
 Future<List<String>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
   var statuteCSV = csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
-  return statuteCSV.map((statuteRow) => statuteRow.toString());
+  return statuteCSV.map((statuteRow) => statuteRow.join(" <> "));
 }
 
 class CannabisLawSociety extends StatefulWidget {
@@ -62,7 +62,13 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
             child: new ListView.builder(
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                return new Card(child: new Text(items[index]));
+                if (filter == null || filter == "") {
+                  return new Card(child: new Text(items[index]));
+                } else if (items[index].toLowerCase().contains(filter.toLowerCase())) {
+                  return new Card(child: new Text(items[index]));
+                } else {
+                  return new Container();
+                }
               },
             ),
           ),
