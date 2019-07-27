@@ -2,51 +2,78 @@ import 'package:flutter_web/material.dart';
 import 'package:csv/csv.dart' as csv;
 import 'package:http/http.dart' as http;
 
-Future<List<List<dynamic>>> readStatute() async {
+void main() => runApp(
+  new MaterialApp(
+    home: new CannabisLawSociety(),
+  )
+);
+
+Future<List<String>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
-  return csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
+  var statuteCSV = csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
+  return statuteCSV.map((statuteRow) => statuteRow.join(" <> "));
 }
 
-Future<Widget> renderStatute() async {
-  var statuteList = await readStatute();
-  return Table(
-    children: [
-      for (var statuteListRow in statuteList)
-        TableRow(
-          children: [
-            for (var statuteListCell in statuteListRow)
-              TableCell(
-                child: Padding(
-                  padding: EdgeInsets.all(5.0),
-                  child: Text(statuteListCell is String ? statuteListCell : ""),
-                ),
-              ),
-          ],
-        ),
-    ],
-  );
+class CannabisLawSociety extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new CannabisLawSocietyState();
 }
 
-Future<Widget> renderSearch() async {
-  return TextField(
-    decoration: InputDecoration(
-      prefixIcon: Icon(Icons.search),
-      hintText: "Search...",
-    ),
-  );
-}
+class CannabisLawSocietyState extends State<CannabisLawSociety> {
+  List<String> items;
+  TextEditingController controller = new TextEditingController();
+  String filter;
 
-Future<void> render() async {
-  var searchUI = await renderSearch();
-  var statuteUI = await renderStatute();
-  runApp(Column(
-    children: <Widget>[
-      searchUI,
-      statuteUI,
-    ],
-  ));
-}
+  @override
+  void initState() {
+    readStatute().then((result) {
+      setState(() {
+        items = result;
+      });
+    });
+    controller.addListener(() {
+      setState(() {
+        filter = controller.text;
+      });
+    });
+  }
 
-void main() {
-  renderStatute();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Material(
+      child: new Column(
+        children: <Widget>[
+          new Padding(
+            padding: new EdgeInsets.only(top: 20.0),
+          ),
+          new TextField(
+            decoration: new InputDecoration(
+              labelText: "Search Statute"
+            ),
+            controller: controller,
+          ),
+          new Expanded(
+            child: new ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (filter == null || filter == "") {
+                  return new Card(child: new Text(items[index]));
+                } else if (items[index].toLowerCase().contains(filter.toLowerCase())) {
+                  return new Card(child: new Text(items[index]));
+                } else {
+                  return new Container();
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
