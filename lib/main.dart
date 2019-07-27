@@ -18,9 +18,7 @@ Future<Widget> renderStatute() async {
               TableCell(
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
-                  child: new Text(
-                    data: statuteListCell is String ? statuteListCell : "",
-                  ),
+                  child: new Text(statuteListCell is String ? statuteListCell : ""),
                 ),
               ),
           ],
