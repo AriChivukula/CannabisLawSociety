@@ -2,7 +2,7 @@ import 'package:flutter_web/material.dart';
 import 'package:csv/csv.dart' as csv;
 import 'package:http/http.dart' as http;
 
-Future<List<List<string>>> readStatute() async {
+Future<List<List<String>>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
   print(statute.body); // TODO: remove
   return csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
