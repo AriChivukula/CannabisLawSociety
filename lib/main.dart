@@ -22,7 +22,7 @@ Future<Widget> renderStatute() async {
                   verticalAlignment: TableCellVerticalAlignment.middle,
                   child: Padding(
                     padding: EdgeInsets.all(5.0),
-                    child: new Text(statuteListCell as String),
+                    child: new Text(statuteListCell is String ? statuteListCell : ""),
                   ),
                 ),
             ],

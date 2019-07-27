@@ -9,7 +9,7 @@ variable "NAME" {}
 provider "aws" {}
 
 resource "aws_s3_bucket" "fd_bucket" {
-  bucket        = "${var.DOMAIN}"
+  bucket = "${var.DOMAIN}"
   force_destroy = true
 
   tags = {
@@ -58,9 +58,9 @@ resource "aws_s3_bucket_object" "fd_object" {
 }
 
 resource "aws_acm_certificate" "fd_certificate" {
-  domain_name               = "${var.DOMAIN}"
+  domain_name = "${var.DOMAIN}"
   subject_alternative_names = ["*.${var.DOMAIN}"]
-  validation_method         = "DNS"
+  validation_method = "DNS"
 
   tags = {
     Name = "${var.NAME}"
@@ -73,9 +73,9 @@ resource "aws_cloudfront_distribution" "fd_distribution" {
 
   default_cache_behavior {
     allowed_methods = ["HEAD", "GET"]
-    cached_methods  = ["HEAD", "GET"]
-    compress        = false
-    default_ttl     = 0
+    cached_methods = ["HEAD", "GET"]
+    compress = false
+    default_ttl = 0
 
     forwarded_values {
       cookies {
@@ -85,19 +85,19 @@ resource "aws_cloudfront_distribution" "fd_distribution" {
       query_string = "false"
     }
 
-    target_origin_id       = "${var.DOMAIN}"
+    target_origin_id = "${var.DOMAIN}"
     viewer_protocol_policy = "redirect-to-https"
   }
 
   origin {
     domain_name = "${aws_s3_bucket.fd_bucket.website_endpoint}"
-    origin_id   = "${var.DOMAIN}"
+    origin_id = "${var.DOMAIN}"
 
     custom_origin_config {
-      http_port              = 80
-      https_port             = 443
+      http_port = 80
+      https_port = 443
       origin_protocol_policy = "http-only"
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      origin_ssl_protocols = ["TLSv1", "TLSv1.1", "TLSv1.2"]
     }
   }
 
@@ -113,7 +113,7 @@ resource "aws_cloudfront_distribution" "fd_distribution" {
 
   viewer_certificate {
     acm_certificate_arn = "${aws_acm_certificate.fd_certificate.arn}"
-    ssl_support_method  = "sni-only"
+    ssl_support_method = "sni-only"
   }
 }
 
@@ -126,33 +126,33 @@ resource "aws_route53_zone" "fd_zone" {
 }
 
 resource "aws_route53_record" "fd_record_root" {
-  name    = "${var.DOMAIN}."
-  type    = "A"
+  name = "${var.DOMAIN}."
+  type = "A"
   zone_id = "${aws_route53_zone.fd_zone.zone_id}"
 
   alias {
     evaluate_target_health = false
-    name                   = "${aws_cloudfront_distribution.fd_distribution.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.fd_distribution.hosted_zone_id}"
+    name = "${aws_cloudfront_distribution.fd_distribution.domain_name}"
+    zone_id = "${aws_cloudfront_distribution.fd_distribution.hosted_zone_id}"
   }
 }
 
 resource "aws_route53_record" "fd_record_wild" {
-  name    = "*.${var.DOMAIN}."
-  type    = "A"
+  name = "*.${var.DOMAIN}."
+  type = "A"
   zone_id = "${aws_route53_zone.fd_zone.zone_id}"
 
   alias {
     evaluate_target_health = false
-    name                   = "${aws_cloudfront_distribution.fd_distribution.domain_name}"
-    zone_id                = "${aws_cloudfront_distribution.fd_distribution.hosted_zone_id}"
+    name = "${aws_cloudfront_distribution.fd_distribution.domain_name}"
+    zone_id = "${aws_cloudfront_distribution.fd_distribution.hosted_zone_id}"
   }
 }
 
 resource "aws_route53_record" "fd_record_validation" {
-  name    = "${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_name}"
+  name = "${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_name}"
   records = ["${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_value}"]
-  ttl     = 60
-  type    = "${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_type}"
+  ttl = 60
+  type = "${aws_acm_certificate.fd_certificate.domain_validation_options[0].resource_record_type}"
   zone_id = "${aws_route53_zone.fd_zone.zone_id}"
 }
