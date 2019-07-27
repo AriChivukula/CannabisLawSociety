@@ -11,7 +11,7 @@ void main() => runApp(
 Future<List<String>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
   var statuteCSV = csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
-  return statuteCSV.map((statuteRow) => statuteRow.join(" <> "));
+  return statuteCSV.map((statuteRow) => statuteRow.join(" "));
 }
 
 class CannabisLawSociety extends StatefulWidget {
