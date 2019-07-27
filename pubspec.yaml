@@ -2,6 +2,7 @@ name: CannabisLawSociety
 environment:
   sdk: any
 dependencies:
+  csv: any
   flutter_web: any
   flutter_web_ui: any
   http: any
