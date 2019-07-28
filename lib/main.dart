@@ -11,13 +11,12 @@ void main() => runApp(
 Future<List<String>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
   var statuteCSV = csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
-  var data = statuteCSV.map(
+  print(csv.ListToCsvConverter().convert(statuteCSV));
+  return <List<String>>(statuteCSV.map(
     (statuteRow) => statuteRow.map(
       (statuteCell) => statuteCell == null ? "" : statuteCell is String ? statuteCell : "",
     ).join(" <> "),
-  );
-  print(data);
-  return data;
+  ));
 }
 
 class CannabisLawSociety extends StatefulWidget {
