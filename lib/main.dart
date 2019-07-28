@@ -3,8 +3,8 @@ import 'package:csv/csv.dart' as csv;
 import 'package:http/http.dart' as http;
 
 void main() => runApp(
-  new MaterialApp(
-    home: new CannabisLawSociety(),
+  MaterialApp(
+    home: CannabisLawSociety(),
   )
 );
 
@@ -20,12 +20,12 @@ Future<List<List<String>>> readStatute() async {
 
 class CannabisLawSociety extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new CannabisLawSocietyState();
+  State<StatefulWidget> createState() => CannabisLawSocietyState();
 }
 
 class CannabisLawSocietyState extends State<CannabisLawSociety> {
   List<List<String>> items = [];
-  TextEditingController controller = new TextEditingController();
+  TextEditingController controller = TextEditingController();
   String filter = "";
 
   @override
@@ -50,37 +50,45 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
 
   @override
   Widget build(BuildContext context) {
-    return new Material(
-      child: new Column(
+    return Material(
+      child: Column(
         children: <Widget>[
-          new Padding(
-            padding: new EdgeInsets.only(top: 20.0),
+          Padding(
+            padding: EdgeInsets.only(top: 20.0),
           ),
-          new TextField(
-            decoration: new InputDecoration(
+          TextField(
+            decoration: InputDecoration(
               labelText: "Search Statute"
             ),
             controller: controller,
           ),
-          new Expanded(
-            child: new ListView.builder(
+          Expanded(
+            child: ListView.builder(
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 if (filter == "") {
-                  return new Card(
-                    child: new Text(items[index].join(" ")),
-                  );
+                  return getCard(items[index]);
                 } else if (items[index].join(" ").toLowerCase().contains(filter.toLowerCase())) {
-                  return new Card(
-                    child: new Text(items[index].join(" ")),
-                  );
+                  return getCard(items[index]);
                 } else {
-                  return new Container();
+                  return Container();
                 }
               },
             ),
           ),
         ],
+      ),
+    );
+  }
+  
+  Card getCard(List<String> item) {
+    return Card(
+      child: Row(
+        children: item.map(
+          (itemPart) => Expanded(
+            child: Text(itemPart),
+          ),
+        ).toList(),
       ),
     );
   }
