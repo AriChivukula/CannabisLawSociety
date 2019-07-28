@@ -15,7 +15,7 @@ Future<List<String>> readStatute() async {
     (statuteRow) => statuteRow.map(
       (statuteCell) => statuteCell == null ? "" : statuteCell is String ? statuteCell : "",
     ).join(" <> "),
-  ) as List<String>;
+  );
 }
 
 class CannabisLawSociety extends StatefulWidget {
@@ -24,9 +24,9 @@ class CannabisLawSociety extends StatefulWidget {
 }
 
 class CannabisLawSocietyState extends State<CannabisLawSociety> {
-  List<String> items;
+  List<String> items = [];
   TextEditingController controller = new TextEditingController();
-  String filter;
+  String filter = "";
 
   @override
   void initState() {
@@ -66,7 +66,7 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
             child: new ListView.builder(
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                if (filter == null || filter == "") {
+                if (filter == "") {
                   return new Card(child: new Text(items[index]));
                 } else if (items[index].toLowerCase().contains(filter.toLowerCase())) {
                   return new Card(child: new Text(items[index]));
