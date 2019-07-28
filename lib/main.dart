@@ -8,16 +8,14 @@ void main() => runApp(
   )
 );
 
-Future<List<String>> readStatute() async {
+Future<List<List<String>>> readStatute() async {
   var statute = await http.get("/assets/statute.csv");
   var statuteCSV = csv.CsvToListConverter(shouldParseNumbers: false).convert(statute.body);
-  print(csv.ListToCsvConverter().convert(statuteCSV));
-  var statuteList = <String>[];
-  statuteCSV.forEach(
-    (statuteRow) => statuteList.add(statuteRow.join(" <> ")),
-  );
-  print(statuteList);
-  return statuteList;
+  return statuteCSV.map(
+    (statuteRow) => statuteRow.map(
+      (statuteCell) => statuteCell as String,
+    ).toList(),
+  ).toList();
 }
 
 class CannabisLawSociety extends StatefulWidget {
@@ -26,7 +24,7 @@ class CannabisLawSociety extends StatefulWidget {
 }
 
 class CannabisLawSocietyState extends State<CannabisLawSociety> {
-  List<String> items = [];
+  List<List<String>> items = [];
   TextEditingController controller = new TextEditingController();
   String filter = "";
 
@@ -69,9 +67,13 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 if (filter == "") {
-                  return new Card(child: new Text(items[index]));
-                } else if (items[index].toLowerCase().contains(filter.toLowerCase())) {
-                  return new Card(child: new Text(items[index]));
+                  return new Card(
+                    child: new Text(items[index].join(" ")),
+                  );
+                } else if (items[index].join(" ").toLowerCase().contains(filter.toLowerCase())) {
+                  return new Card(
+                    child: new Text(items[index].join(" ")),
+                  );
                 } else {
                   return new Container();
                 }
