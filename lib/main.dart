@@ -80,7 +80,7 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
       ),
     );
   }
-  
+
   Card getCard(List<String> item) {
     return Card(
       child: Row(
