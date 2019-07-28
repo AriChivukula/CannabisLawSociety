@@ -15,7 +15,7 @@ Future<List<String>> readStatute() async {
     (statuteRow) => statuteRow.map(
       (statuteCell) => statuteCell == null ? "" : statuteCell is String ? statuteCell : "",
     ).join(" <> "),
-  );
+  ) as List<String>;
 }
 
 class CannabisLawSociety extends StatefulWidget {
