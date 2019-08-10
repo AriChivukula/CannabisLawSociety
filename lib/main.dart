@@ -26,8 +26,8 @@ class CannabisLawSociety extends StatefulWidget {
 class CannabisLawSocietyState extends State<CannabisLawSociety> {
   List<String> headers = [];
   List<List<String>> items = [];
+  List<List<String>> filteredItems = [];
   TextEditingController controller = TextEditingController();
-  String filter = "";
 
   @override
   void initState() {
@@ -36,12 +36,19 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
         if (result.length > 0) {
           headers = result.removeAt(0);
           items = result;
+          filteredItems = items;
         }
       });
     });
     controller.addListener(() {
       setState(() {
-        filter = controller.text;
+        if (controller.text == "") {
+          filteredItems = items;
+        } else {
+          filteredItems = items.where(
+            (item) => item.join(" ").toLowerCase().contains(controller.text.toLowerCase()),
+          ).toList();
+        }
       });
     });
   }
@@ -71,16 +78,8 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (filter == "") {
-                  return getCard(items[index]);
-                } else if (items[index].join(" ").toLowerCase().contains(filter.toLowerCase())) {
-                  return getCard(items[index]);
-                } else {
-                  return Container();
-                }
-              },
+              itemCount: filteredItems.length,
+              itemBuilder: (context, index) => getCard(filteredItems[index]),
             ),
           ),
         ],
