@@ -73,9 +73,7 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
             ),
             controller: controller,
           ),
-          Expanded(
-            child: getCard(headers),
-          ),
+          getCard(headers),
           Expanded(
             child: ListView.builder(
               itemCount: filteredItems.length,
