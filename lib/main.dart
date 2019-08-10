@@ -34,7 +34,7 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
     readStatute().then((result) {
       setState(() {
         if (result.length > 0) {
-          headers = result.remove(0)
+          headers = result.removeAt(0);
           items = result;
         }
       });
@@ -67,7 +67,7 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
             controller: controller,
           ),
           Expanded(
-            getCard(headers),
+            child: getCard(headers),
           ),
           Expanded(
             child: ListView.builder(
