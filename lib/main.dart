@@ -24,6 +24,7 @@ class CannabisLawSociety extends StatefulWidget {
 }
 
 class CannabisLawSocietyState extends State<CannabisLawSociety> {
+  List<String> headers = [];
   List<List<String>> items = [];
   TextEditingController controller = TextEditingController();
   String filter = "";
@@ -32,7 +33,10 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
   void initState() {
     readStatute().then((result) {
       setState(() {
-        items = result;
+        if (result.length > 0) {
+          headers = result.remove(0)
+          items = result;
+        }
       });
     });
     controller.addListener(() {
@@ -61,6 +65,9 @@ class CannabisLawSocietyState extends State<CannabisLawSociety> {
               labelText: "Search Statute"
             ),
             controller: controller,
+          ),
+          Expanded(
+            getCard(headers),
           ),
           Expanded(
             child: ListView.builder(
