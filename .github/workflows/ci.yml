@@ -10,7 +10,7 @@ jobs:
         sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
         sudo apt-get update
         sudo apt-get install dart
-        export PATH="$PATH:/usr/lib/dart/bin"
+        echo 'export PATH="$PATH:/usr/lib/dart/bin"' >> ~/.profile
     - name: Test Build
       run: |
         pub global activate webdev
