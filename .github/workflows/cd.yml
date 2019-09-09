@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Test Build
+    - name: Build
       run: |
         sudo sh -c 'curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -'
         sudo sh -c 'curl https://storage.googleapis.com/download.dartlang.org/linux/debian/dart_stable.list > /etc/apt/sources.list.d/dart_stable.list'
@@ -17,7 +17,7 @@ jobs:
         pub global activate webdev
         pub get
         webdev build
-    - name: Test Deploy
+    - name: Deploy
       run: |
         wget https://releases.hashicorp.com/terraform/0.12.5/terraform_0.12.5_linux_amd64.zip
         unzip terraform_0.12.5_linux_amd64.zip
